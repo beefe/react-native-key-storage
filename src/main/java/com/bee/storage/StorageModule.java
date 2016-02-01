@@ -27,17 +27,8 @@ public class StorageModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setGenericPassword(String key, String value, Callback callback) {
-        if (spf != null) {
-            boolean saveOK = spf.edit().putString(key, value).commit();
-            if (callback != null) {
-                if (saveOK) {
-                    callback.invoke(null);
-                } else {
-                    callback.invoke("failed");
-                }
-            }
-        }
+    public void setGenericPassword(String key, String value) {
+        spf.edit().putString(key, value).apply();
     }
 
     @ReactMethod
@@ -45,7 +36,7 @@ public class StorageModule extends ReactContextBaseJavaModule {
         if (callback != null) {
             if (spf != null) {
                 String value = spf.getString(key, "");
-                callback.invoke(null, value);
+                callback.invoke("", value);
             } else {
                 callback.invoke("not found");
             }
@@ -53,17 +44,9 @@ public class StorageModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void resetGenericPassword(Callback callback) {
-        if (callback != null) {
-            if (spf != null) {
-                boolean clearOK = spf.edit().clear().commit();
-                if (clearOK) {
-                    callback.invoke(null);
-                } else {
-                    callback.invoke("failed");
-                }
-            }
+    public void resetGenericPassword() {
+        if (spf != null) {
+            spf.edit().clear().apply();
         }
-
     }
 }
