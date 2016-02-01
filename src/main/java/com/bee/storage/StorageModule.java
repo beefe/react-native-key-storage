@@ -14,10 +14,11 @@ public class StorageModule extends ReactContextBaseJavaModule {
     public static final String REACT_CLASS = "RCTStorage";
 
     private SharedPreferences spf = null;
-    private static final String PASSWORD = "password";
+    private static final String FILE_NAME = "storage";
 
     public StorageModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        spf = getReactApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -26,20 +27,27 @@ public class StorageModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setGenericPassword(String name, String password, Callback callback) {
-        spf = getReactApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE);
-        boolean saveOK = spf.edit().putString(PASSWORD, password).commit();
-        if (callback != null) {
-            callback.invoke(saveOK);
+    public void setGenericPassword(String key, String value, Callback callback) {
+        if (spf != null) {
+            boolean saveOK = spf.edit().putString(key, value).commit();
+            if (callback != null) {
+                if (saveOK) {
+                    callback.invoke(null);
+                } else {
+                    callback.invoke("failed");
+                }
+            }
         }
     }
 
     @ReactMethod
-    public void getGenericPassword(Callback callback) {
+    public void getGenericPassword(String key, Callback callback) {
         if (callback != null) {
             if (spf != null) {
-                String password = spf.getString(PASSWORD, "");
-                callback.invoke(password);
+                String value = spf.getString(key, "");
+                callback.invoke(null, value);
+            } else {
+                callback.invoke("not found");
             }
         }
     }
@@ -49,7 +57,11 @@ public class StorageModule extends ReactContextBaseJavaModule {
         if (callback != null) {
             if (spf != null) {
                 boolean clearOK = spf.edit().clear().commit();
-                callback.invoke(clearOK);
+                if (clearOK) {
+                    callback.invoke(null);
+                } else {
+                    callback.invoke("failed");
+                }
             }
         }
 
