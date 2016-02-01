@@ -1,15 +1,14 @@
 import NativeModules from 'react-native';
 
-var NativeStorage = NativeModules.Storage;
+const NativeStorage = NativeModules.Storage;
 
-var Storage = {
+const Storage = {
 
-  setGenericPassword: function(name, password, callback) {
+  saveValue: function(key, value) {
     return new Promise((resolve, reject) => {
-      NativeStorage.setGenericPassword(name, password, function(err) {
-        callback && callback((err && convertError(err)) || null);
+      NativeStorage.saveValue(key, value, function(err) {
         if (err) {
-          reject(convertError(err));
+          reject(err);
         } else {
           resolve();
         }
@@ -17,35 +16,26 @@ var Storage = {
     });
   },
 
-  getGenericPassword: function(
-    service?: string,
-    callback?: ?(error: ?Error, result: ?string) => void
-  ): Promise {
+  getValue: function(key,callback) {
     return new Promise((resolve, reject) => {
-      NativeStorage.getGenericPassword(service, function(err, username, password) {
-        err = convertError(err);
+      NativeStorage.getValue(key, function(err, value) {
         if(!err && arguments.length === 1) {
-          err = new Error('No keychain entry found' + (service ? ' for service "' + service + '"' : ''));
+          err = new Error('No keychain entry found');
         }
-        callback && callback((err && convertError(err)) || null, username, password);
         if (err) {
-          reject(convertError(err));
+          reject(err);
         } else {
-          resolve({ username, password });
+          resolve(value);
         }
       });
     });
   },
 
-  resetGenericPassword: function(
-    service?: string,
-    callback?: ?(error: ?Error) => void
-  ): Promise {
+  resetValue: function(callback) {
     return new Promise((resolve, reject) => {
-      NativeStorage.resetGenericPassword(service, function(err) {
-        callback && callback((err && convertError(err)) || null);
+      NativeStorage.resetValue(key, function(err) {
         if (err) {
-          reject(convertError(err));
+          reject(err);
         } else {
           resolve();
         }
@@ -55,13 +45,5 @@ var Storage = {
 
 };
 
-function convertError(err) {
-  if (!err) {
-    return null;
-  }
-  let out = new Error(err.message);
-  out.key = err.key;
-  return out;
-}
 
 export default Storage;
