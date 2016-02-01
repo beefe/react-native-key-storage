@@ -1,6 +1,6 @@
 {
   "name": "react-native-key-storage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,8 @@
     "url": "git+https://github.com/beefe/react-native-key-storage.git"
   },
   "keywords": [
-    "react-native-storage","react-native-key-storage"
+    "react-native-storage",
+    "react-native-key-storage"
   ],
   "author": "shexiaoheng",
   "license": "MIT",
