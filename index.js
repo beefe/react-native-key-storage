@@ -1,4 +1,4 @@
-import NativeModules from 'react-native';
+import { NativeModules } from 'react-native';
 
 const NativeStorage = NativeModules.Storage;
 
@@ -25,7 +25,7 @@ const Storage = {
         if (err) {
           reject(err);
         } else {
-          resolve(value);
+          resolve({value});
         }
       });
     });
