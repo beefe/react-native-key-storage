@@ -1,8 +1,12 @@
-import { NativeModules } from 'react-native';
+'use strict';
 
-const NativeStorage = NativeModules.Storage;
+import {
+  NativeModules
+} from 'react-native';
 
-const Storage = {
+let NativeStorage = NativeModules.Storage;
+
+let Storage = {
 
   saveValue: function(key, value) {
     return new Promise((resolve, reject) => {
@@ -19,8 +23,8 @@ const Storage = {
   getValue: function(key) {
     return new Promise((resolve, reject) => {
       NativeStorage.getValue(key, function(err, value) {
-        if(!err && arguments.length === 1 || value === '') {
-          reject('not found');
+        if((!err && arguments.length === 1) || value === '') {
+          err = 'value is empty or not found';
         }
         if (err) {
           reject(err);
