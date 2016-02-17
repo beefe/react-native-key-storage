@@ -30,6 +30,7 @@ public class StorageModule extends ReactContextBaseJavaModule {
     public void saveValue(String key, String value, Callback callback) {
         try {
             spf.edit().putString(key, value).apply();
+            callback.invoke(null, value);
         } catch (Exception e) {
             if (callback != null) {
                 callback.invoke(e.getMessage());
