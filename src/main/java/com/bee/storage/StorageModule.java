@@ -54,6 +54,7 @@ public class StorageModule extends ReactContextBaseJavaModule {
     public void resetValue(String key, Callback callback) {
         try {
             spf.edit().putString(key, "").apply();
+            callback.invoke(null);
         } catch (Exception e) {
             if (callback != null) {
                 callback.invoke(e.getMessage());
