@@ -1,6 +1,6 @@
 {
   "name": "react-native-key-storage",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,5 +19,5 @@
     "url": "https://github.com/beefe/react-native-key-storage/issues"
   },
   "homepage": "https://github.com/beefe/react-native-key-storage#readme",
-  "description": ""
+  "description": "fix bug"
 }

@@ -16,11 +16,11 @@ const Storage = {
     });
   },
 
-  getValue: function(key,callback) {
+  getValue: function(key) {
     return new Promise((resolve, reject) => {
       NativeStorage.getValue(key, function(err, value) {
-        if(!err && arguments.length === 1) {
-          err = new Error('No keychain entry found');
+        if(!err && arguments.length === 1 || value === '') {
+          reject('not found');
         }
         if (err) {
           reject(err);
@@ -31,7 +31,7 @@ const Storage = {
     });
   },
 
-  resetValue: function(callback) {
+  resetValue: function(key) {
     return new Promise((resolve, reject) => {
       NativeStorage.resetValue(key, function(err) {
         if (err) {
@@ -44,6 +44,5 @@ const Storage = {
   },
 
 };
-
 
 export default Storage;
